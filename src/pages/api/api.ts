@@ -1,23 +1,27 @@
-// api/weather.ts
 import axios from 'axios';
 
-export interface WeatherData {
-  temperature?: number;
-  // Weitere Wetterdaten hier hinzufügen
-}
+const API_BASE_URL = 'https://api.open-meteo.com/v1/forecast';
 
-export const getWeatherData = async (city: string): Promise<WeatherData | null> => {
+export async function fetchTemperature(city: string): Promise<number> {
   try {
-    const response = await axios.get(`https://api.open-meteo.com/v1/forecast`, {
-      params: {
-        city: city,
-        current_weather: true,
-        timezone: 'Europe/Berlin'
-      }
-    });
-    return response.data.current_weather;
+    const url = `${API_BASE_URL}?city=${encodeURIComponent(city)}&current=temperature_2m`;
+
+    const response = await axios.get(url);
+
+    if (response.status !== 200) {
+      throw new Error(`Failed to fetch data, status: ${response.status}`);
+    }
+
+    const { data } = response;
+
+    if (!data || !data.current || !data.current.temperature_2m) {
+      throw new Error('Invalid data format');
+    }
+
+    const temperature: number = data.current.temperature_2m;
+    return temperature;
   } catch (error) {
-    console.error("Error fetching weather data:", error);
-    return null;
+    console.error('Error fetching temperature:', error);
+    throw error;
   }
-};
+}

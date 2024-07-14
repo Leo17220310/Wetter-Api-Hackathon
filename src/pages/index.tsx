@@ -1,5 +1,5 @@
 import Chart from "../sections/chart";
-import InputWithButton from "@/sections/inputField";
+import InputWithButton from "../sections/inputField"; // Adjust path as per your project structure
 
 export default function Home() {
   return (
