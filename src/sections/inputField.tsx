@@ -48,7 +48,7 @@ export function InputWithButton({ addCityData, cityCount }: InputWithButtonProps
     <div className="flex w-full max-w-sm items-center space-x-2">
       <Input
         type="text"
-        placeholder="Stadt / Land / Bezirk . . ."
+        placeholder="Stadt / Bezirk . . ."
         value={city}
         onChange={(e) => setCity(e.target.value)}
       />
